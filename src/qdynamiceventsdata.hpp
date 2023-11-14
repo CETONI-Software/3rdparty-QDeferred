@@ -8,6 +8,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QMap>
+#include <QRegularExpression>
 #include <functional>
 
 #define QDYNAMICEVENTSPROXY_EVENT_TYPE (QEvent::Type)(QEvent::User + 666)
@@ -91,7 +92,7 @@ public:
 
 private:
 	// thread safety first
-	QMutex m_mutex;
+    QRecursiveMutex m_mutex;
 	// list of connections to avoid memory leaks
 	QList<QMetaObject::Connection> m_connectionList;
 	// struct to store callback data
@@ -133,7 +134,6 @@ private:
 
 template<class ...Types>
 QDynamicEventsData<Types...>::QDynamicEventsData()
-	: m_mutex(QMutex::Recursive)
 {
 	// nothing to do here
 }
@@ -165,7 +165,7 @@ void QDynamicEventsData<Types...>::off(QString strEventName)
 {
 	QMutexLocker locker(&m_mutex);
 	// split by spaces
-	QStringList listEventNames = strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// for each event name
 	for (int i = 0; i < listEventNames.count(); i++)
 	{
@@ -186,7 +186,7 @@ void QDynamicEventsData<Types...>::off(QDynamicEventsHandle evtHandle)
 {
 	QMutexLocker locker(&m_mutex);
 	// split by spaces
-	QStringList listEventNames = evtHandle.m_strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = evtHandle.m_strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// for each event name
 	for (int i = 0; i < listEventNames.count(); i++)
 	{
@@ -220,7 +220,7 @@ void QDynamicEventsData<Types...>::createProxyObj(QString &strEventName)
 	// create obj for thread if not existing, else return existing
 	QDynamicEventsProxyObject * p_obj = QDynamicEventsDataBase::getObjectForThread(p_currThd);
 	// split by spaces
-	QStringList listEventNames = strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// for each event name
 	for (int i = 0; i < listEventNames.count(); i++)
 	{
@@ -239,7 +239,7 @@ template<class ...Types>
 QDynamicEventsHandle QDynamicEventsData<Types...>::on(QString strEventName, std::function<void(Types(&...args))> callback, std::function<bool(Types(&...args))> filter/* = nullptr*/, Qt::ConnectionType connection/* = Qt::AutoConnection*/)
 {
 	// split by spaces
-	QStringList listEventNames = strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// create proxy object if necessary
 	this->createProxyObj(strEventName);
 	// get callback uuid
@@ -268,7 +268,7 @@ template<class ...Types>
 QDynamicEventsHandle QDynamicEventsData<Types...>::once(QString strEventName, std::function<void(Types(&...args))> callback, std::function<bool(Types(&...args))> filter/* = nullptr*/, Qt::ConnectionType connection/* = Qt::AutoConnection*/)
 {
 	// split by spaces
-	QStringList listEventNames = strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// create proxy object if necessary
 	this->createProxyObj(strEventName);
 	// get callback uuid
@@ -298,7 +298,7 @@ void QDynamicEventsData<Types...>::trigger(QDynamicEvents<Types...> ref, QString
 {
 	QMutexLocker locker(&m_mutex);	
 	// split by spaces
-	QStringList listEventNames = strEventName.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    QStringList listEventNames = strEventName.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
 	// for each event name
 	for (int i = 0; i < listEventNames.count(); i++)
 	{

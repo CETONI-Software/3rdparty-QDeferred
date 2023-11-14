@@ -184,7 +184,7 @@ private:
 	std::function<void(std::function<void(Types(&...args))>)> m_finishedFunction;
 	QMap< QThread *, DeferredAllCallbacks * > m_callbacksMap;
 	QDeferredState m_state;
-	QMutex         m_mutex;
+    QRecursiveMutex m_mutex;
 	QList<QMetaObject::Connection> m_connectionList;	
 	// methods
 	DeferredAllCallbacks * getCallbacksForThread();
@@ -193,8 +193,7 @@ private:
 template<class ...Types>
 QDeferredData<Types...>::QDeferredData() :
 	m_blockingEventLoop(nullptr),
-	m_state(QDeferredState::PENDING),
-	m_mutex(QMutex::Recursive)
+    m_state(QDeferredState::PENDING)
 {
 	// NOTE : compiling below or in init list m_finishedFunction(nullptr)
 	//        randomly fails to compile

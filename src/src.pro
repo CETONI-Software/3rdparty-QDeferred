@@ -1,11 +1,14 @@
 OUT_ROOT = $${OUT_PWD}/..
-CONFIG += c++14
 CONFIG += debug_and_release
 TARGET = $$qtLibraryTarget(qdeferred)
 DEFINES += QT_DEPRECATED_WARNINGS
 TEMPLATE = lib
 DESTDIR = $${OUT_ROOT}/lib
 QT += core
+
+lessThan(QT_MAJOR_VERSION, 6) {
+    CONFIG += c++14
+}
 
 windows {
 	# MinGW

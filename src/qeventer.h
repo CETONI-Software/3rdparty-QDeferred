@@ -30,7 +30,7 @@ public:
 		                    const T2      &filter = nullptr, 
 		                    const Qt::ConnectionType &connection = Qt::AutoConnection) {
 		return onAlias<Types...>(strEventName, callback, filter, connection);
-	};
+    }
 	// once method	
 	template<typename ...Types, typename T1, typename T2>
 	QDynamicEventsHandle once(const QString &strEventName, 
@@ -38,7 +38,7 @@ public:
 		                      const T2      &filter = nullptr, 
 		                      const Qt::ConnectionType &connection = Qt::AutoConnection) {
 		return onceAlias<Types...>(strEventName, callback, filter, connection);
-	};
+    }
 	// off method (all callbacks registered to an specific event name)
 	void off(const QString &strEventName);
 	// off method (specific callback based on handle)
