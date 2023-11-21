@@ -46,8 +46,15 @@ isEmpty(PREFIX){
 	warning("Install Prefix not set")
 }
 
+INSTALL_HEADERS += \
+	$$HEADERS \
+	QDeferred \
+	QDynamicEvents \
+	QEventer \
+	QLambdaThreadWorker \
+
 headers.path=$$PREFIX/include/QDeferred
-headers.files=$$HEADERS
+headers.files=$$INSTALL_HEADERS
 target.path=$$PREFIX/lib
 INSTALLS += headers target
 
