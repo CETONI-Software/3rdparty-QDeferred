@@ -46,7 +46,7 @@ isEmpty(PREFIX){
 	warning("Install Prefix not set")
 }
 
-headers.path=$$PREFIX/include
+headers.path=$$PREFIX/include/QDeferred
 headers.files=$$HEADERS
 target.path=$$PREFIX/lib
 INSTALLS += headers target
