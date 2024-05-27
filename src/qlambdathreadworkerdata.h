@@ -8,12 +8,13 @@
 #include <QMap>
 #include <QDeferred>
 #include <functional>
+#include "qdeferred_export.h"
 
 #define QLAMBDATHREADWORKERDATA_EVENT_TYPE (QEvent::Type)(QEvent::User + 666)
 
 // QDEFTHREADWORKERDATAEVENT -------------------------------------------------
 
-class QLambdaThreadWorkerDataEvent : public QEvent
+class QDEFERRED_EXPORT QLambdaThreadWorkerDataEvent : public QEvent
 {
 public:
 	explicit QLambdaThreadWorkerDataEvent();
@@ -24,7 +25,7 @@ public:
 
 // QDEFTHREADWORKEROBJECTDATA -----------------------------------------------------
 
-class QLambdaThreadWorkerObjectData : public QObject
+class QDEFERRED_EXPORT QLambdaThreadWorkerObjectData : public QObject
 {
 	Q_OBJECT
 public:
@@ -56,7 +57,7 @@ private:
 
 // QDEFTHREADWORKERDATA -----------------------------------------------------
 
-class QLambdaThreadWorkerData : public QSharedData
+class QDEFERRED_EXPORT QLambdaThreadWorkerData : public QSharedData
 {
 public:
 	QLambdaThreadWorkerData();

@@ -1,7 +1,10 @@
 OUT_ROOT = $${OUT_PWD}/..
 CONFIG += debug_and_release
 TARGET = $$qtLibraryTarget(qdeferred)
-DEFINES += QT_DEPRECATED_WARNINGS
+
+DEFINES += QT_DEPRECATED_WARNINGS \
+    QDEFERRED_BUILD_LIB
+
 TEMPLATE = lib
 DESTDIR = $${OUT_ROOT}/lib
 QT += core
@@ -18,19 +21,22 @@ windows {
 	# MSVC
 	*-msvc* {
                 QMAKE_CXXFLAGS += /utf-8
+				CONFIG += c++20
         }
 }
 
 #RESOURCES += ads.qrc
 
 HEADERS += \
+	qdeferred_export.h \
 	qeventer.h \
 	qlambdathreadworker.h \
 	qlambdathreadworkerdata.h \
 	qdeferred.hpp \
 	qdeferreddata.hpp \
 	qdynamicevents.hpp \
-	qdynamiceventsdata.hpp
+	qdynamiceventsdata.hpp \
+	qdeferred_export.h
 
 
 SOURCES += \

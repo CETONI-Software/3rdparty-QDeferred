@@ -12,11 +12,12 @@
 #include <QEvent>
 
 #include <QDebug>
+#include "qdeferred_export.h"
 
 // custom event to be used in qt event loop for each thread
 #define QDEFERREDPROXY_EVENT_TYPE (QEvent::Type)(QEvent::User + 123)
 
-class QDeferredProxyObject : public QObject
+class QDEFERRED_EXPORT QDeferredProxyObject : public QObject
 {
 	Q_OBJECT
 public:
@@ -26,7 +27,7 @@ public:
 
 };
 
-class QDeferredProxyEvent : public QEvent
+class QDEFERRED_EXPORT QDeferredProxyEvent : public QEvent
 {
 public:
 	explicit QDeferredProxyEvent();
@@ -84,7 +85,7 @@ protected:
 
 	static QObject s_objExitCleaner;
 
-	static QDeferredProxyObject * getObjectForThread(QThread * p_currThd);
+    QDEFERRED_EXPORT static QDeferredProxyObject * getObjectForThread(QThread * p_currThd);
 
 	static QMap< QThread *, QDeferredProxyObject * > s_threadMap;
 

@@ -5,7 +5,7 @@
 #include <QDeferred>
 #include "qlambdathreadworkerdata.h"
 
-class QLambdaThreadWorker
+class QDEFERRED_EXPORT QLambdaThreadWorker
 {
 public:
 	// constructors
